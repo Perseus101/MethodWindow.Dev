@@ -1,0 +1,46 @@
+VS 0.10;VR 100;TA 0.25;TD 0.25
+ VS=0.1 mm/sec
+ VR=100 mm/sec
+ TA=0.25 
+ TD=0.25 
+>MGHP
+>MA 0
+ Error: Action is not allowed. (Motor is moving)
+>OUT4=1
+ OUT4=1
+>OUT4=1
+ OUT4=1
+>MA 25
+>OUT4=1
+ OUT4=1
+>
+Total of first run...
+
+VS 0.10;VR 100;TA 0.25;TD 0.25
+ VS=0.1 mm/sec
+ VR=100 mm/sec
+ TA=0.25 
+ TD=0.25 
+>MGHP
+>MA 0
+ Error: Action is not allowed. (Motor is moving)
+>OUT4=1
+ OUT4=1
+>OUT4=1
+ OUT4=1
+>MA 25
+>OUT4=1
+ OUT4=1
+>OUT4=1
+ OUT4=1
+>MA 0
+>OUT4=1
+ OUT4=1
+>OUT4=1
+ OUT4=1
+>MA 37
+>OUT4=1
+ OUT4=1
+>OUT4=1
+ OUT4=1
+>

@@ -1,0 +1,153 @@
+#include "serialhandler.h"
+
+SerialHandler::SerialHandler(SettingsDialog *settings, QTableView *posData)
+    :serial(new QSerialPort(this)), settings(settings), positionData(posData), open(false)
+{
+
+    //connect(serial, SIGNAL(error(QSerialPort::SerialPortError)), this, SLOT(handleError(QSerialPort::SerialPortError)));
+}
+
+// Public Slots
+void SerialHandler::openSerialPort()
+{ 
+    SettingsDialog::Settings p = settings->settings();
+    serial->setPortName(p.name);
+    serial->setBaudRate(p.baudRate);
+    serial->setDataBits(p.dataBits);
+    serial->setParity(p.parity);
+    serial->setStopBits(p.stopBits);
+    serial->setFlowControl(p.flowControl);
+
+    if (serial->open(QIODevice::ReadWrite))
+    {
+        open = true;
+//        qDebug()<< "serialport open";
+//        ui->statusBar->showMessage(tr("Connected to %1 : %2, %3, %4, %5, %6")
+//                                       .arg(p.name).arg(p.stringBaudRate).arg(p.stringDataBits)
+//                                       .arg(p.stringParity).arg(p.stringStopBits).arg(p.stringFlowControl));
+    }
+    else
+    {
+        QMessageBox::critical(NULL, QObject::tr("Error"), serial->errorString());
+    }
+}
+
+void SerialHandler::closeSerialPort()
+{
+    //qDebug()<< "serialport check";
+    if(open){
+        serial->close();        
+    }
+    open = false;
+//    ui->statusBar->showMessage(tr("Disconnected"));
+}
+
+void SerialHandler::moveToSample(int sample)
+{
+    int position = positionData->model()->data(positionData->model()->index(sample, 0)).toInt();
+    sendMoveAbsolute(position);
+    // qDebug(QString("Position: %1").arg(position).toStdString().c_str());
+}
+
+void SerialHandler::moveToWaste(int waste_position)
+{
+    // TODO Waste position???
+    sendMoveAbsolute(waste_position);
+}
+
+void SerialHandler::moveToZero()
+{
+    sendMoveAbsolute(0);
+}
+
+void SerialHandler::pumpOn()
+{
+    sendSetOut(true);
+//    qDebug("Pump on.");
+}
+
+void SerialHandler::pumpOff()
+{
+    sendSetOut(false);
+//    qDebug("Pump off.");
+}
+
+// Private Slots
+void SerialHandler::writeData(const QByteArray &data)
+{
+    serial->write(data);
+}
+
+void SerialHandler::readData()
+{
+    QByteArray data = serial->readAll();
+}
+
+void SerialHandler::sendInit()
+{
+    SettingsDialog::Settings p = settings->settings();
+    QByteArray data = p.initString.toLocal8Bit();
+    serial->write(data);
+}
+
+
+void SerialHandler::sendMGHP()
+{
+    QByteArray data = "MGHP\n";
+    serial->write(data);
+
+//    while (!(data.contains("=1\n"))&& i++ < 50){
+//     while (!(serial->readAll().contains("=1\n"))&& i++ < 50){
+//        data = "SIGHOMEP\n";
+//        serial->write(data);
+        QTest::qWait(10000);
+//        data = readData();
+//    }
+
+    // insert loop here to send "SIGHOMEP" and wait for "SIGHOMEP=1"
+    // include statusBar()->message(tr("Homeing"));
+}
+
+
+void SerialHandler::sendMoveAbsolute(int position)
+{
+    QString data = QString("MA %1\n").arg(position);
+    serial->write(data.toUtf8());
+    // insert loop here to send "SIGREADY" and wait for "SIGREADY=1"
+    // include statusBar()->message(tr("In Motion"));
+}
+
+
+void SerialHandler::sendMoveIncrement()
+{
+    QByteArray data = "DIS 50; MI\n";
+    serial->write(data);
+}
+
+
+void SerialHandler::sendSetOut(bool on)
+{
+    QString data = QString("OUT4=%1\n").arg(int(on)); //ouput 4 is pump, true turns it on.
+    serial->write(data.toUtf8());
+}
+
+
+void SerialHandler::sendReadIn()
+{
+    QByteArray data = "IN";
+    serial->write(data);
+}
+
+void SerialHandler::handleError(QSerialPort::SerialPortError error)
+{
+    if (error == QSerialPort::ResourceError) {
+        QMessageBox::critical(NULL, QObject::tr("Critical Error"), serial->errorString());
+        closeSerialPort();
+    }
+}
+
+void SerialHandler::waitTillReady()
+{
+    SettingsDialog::Settings p = settings->settings();
+    QTest::qWait(2000);
+}
