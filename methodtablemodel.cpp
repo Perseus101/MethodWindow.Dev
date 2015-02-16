@@ -239,27 +239,21 @@ void MethodTableModel::resize_headers()
 
 void MethodTableModel::addSelectedRow(int row)
 {
-    bool exists = false;
-    int baseRow = SAMPLES;
     for(std::vector<int>::iterator it = selectedRows.begin(); it != selectedRows.end(); it++)
-    {
-        if(*it < baseRow)
-            baseRow = *it;
         if(row == *it)
-            exists = true;
+            return;
+    selectedRows.push_back(row);
+    if(selectedRows.size() == 1)
+    {
+        setBaseWasteTime(index(row, 0).data().toTime());
+        setBaseSampleTime(index(row, 1).data().toTime());
     }
 
-    if(!exists)
-        selectedRows.push_back(row);
-    setBaseWasteTime(index(baseRow, 0).data().toTime());
-    setBaseSampleTime(index(baseRow, 1).data().toTime());
 }
 
 void MethodTableModel::removeSelectedRow(int row)
 {
-    for(std::vector<int>::iterator it = selectedRows.begin(); it != selectedRows.end() && selectedRows.size() != 0; it++)
-        if(row == *it)
-            selectedRows.erase(it);
+    selectedRows.erase(std::remove(selectedRows.begin(), selectedRows.end(), row), selectedRows.end());
 }
 
 // *** SLOTS ***
