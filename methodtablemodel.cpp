@@ -9,14 +9,11 @@ MethodTableModel::MethodTableModel(QObject *parent, int p_rows, int p_columns)
       m_rows(p_rows),
       m_columns(p_columns)
 {
-
     resize_data();
     resize_headers();
     reinitialize();
 }
-MethodTableModel::~MethodTableModel()
-{
-}
+MethodTableModel::~MethodTableModel() {}
 
 // Public Funcs
 
@@ -39,7 +36,7 @@ QVariant MethodTableModel::data(const QModelIndex &index, int role) const
             for(std::vector< std::vector<Table_Data> >::const_iterator it = m_gridData.begin(); it != m_gridData.end(); ++it)
                 for(std::vector<Table_Data>::const_iterator iter = it->begin(); iter != it->end(); ++iter)
                     if(index.row() == iter->row && index.column() == iter->column)
-                        return static_cast<QVariant>(iter->data);
+                        return static_cast<QVariant>(iter->data.toString("hh:mm"));
         }
             break;
         default:
@@ -72,6 +69,7 @@ bool MethodTableModel::setData(const QModelIndex & index, const QVariant & value
 {
     if (role == Qt::EditRole)
     {
+        // Confirm that the document has (probably) been edited.
         edited = true;
         // Save value from editor to member m_gridData
         for(std::vector< std::vector<Table_Data> >::iterator it = m_gridData.begin(); it != m_gridData.end(); ++it)
@@ -79,7 +77,11 @@ bool MethodTableModel::setData(const QModelIndex & index, const QVariant & value
                 if(index.row() == iter->row && index.column() == iter->column)
                 {
                     // Update data in vector
-                    iter->data = qvariant_cast<QTime>(value);
+                    QTime temp = qvariant_cast<QTime>(value);
+                    if(temp.isValid() && !temp.isNull())
+                        iter->data = qvariant_cast<QTime>(value);
+                    else
+                        iter->data = QTime(0,0,0);
                     // Update total time
                     float hours = 0, minutes = 0, seconds = 0;
                     for(iter = it->begin(); iter != it->end(); ++iter)
@@ -89,7 +91,6 @@ bool MethodTableModel::setData(const QModelIndex & index, const QVariant & value
                             minutes += iter->data.minute();
                             seconds += iter->data.second();
                         }
-
                     for(iter = it->begin(); iter != it->end(); ++iter)
                         if(iter->column == 2)
                             iter->data = QTime(hours, minutes, seconds);
@@ -174,33 +175,6 @@ void MethodTableModel::refresh()
     dataChanged(index(0, 0), index(SAMPLES, STEPS));
 }
 
-// Private Funcs
-
-void MethodTableModel::resize_data()
-{
-    m_gridData.resize(m_rows);
-    int rows = 0, columns = 0;
-    for(std::vector<std::vector<Table_Data> >::iterator it = m_gridData.begin(); it != m_gridData.end(); ++it, ++rows)
-    {
-        it->resize(m_columns);
-        for(std::vector<Table_Data>::iterator iter = it->begin(); iter != it->end(); ++iter, ++columns)
-        {
-            iter->row       = rows;
-            iter->column    = columns;
-        }
-        columns = 0;
-    }
-}
-
-void MethodTableModel::resize_headers()
-{
-    horizontalHeaders.resize(m_columns);
-    int columns = 0;
-
-    for(std::vector<Table_Header>::iterator cols = horizontalHeaders.begin(); cols != horizontalHeaders.end(); ++cols, ++columns)
-        cols->section = columns;
-}
-
 void MethodTableModel::reinitialize()
 {
     for (int row = 0; row < m_rows; ++row)
@@ -234,4 +208,69 @@ int MethodTableModel::getRunSeconds()
         temp += getStepSeconds(i);
     }
     return temp;
+}
+
+// Private Funcs
+
+void MethodTableModel::resize_data()
+{
+    m_gridData.resize(m_rows);
+    int rows = 0, columns = 0;
+    for(std::vector<std::vector<Table_Data> >::iterator it = m_gridData.begin(); it != m_gridData.end(); ++it, ++rows)
+    {
+        it->resize(m_columns);
+        for(std::vector<Table_Data>::iterator iter = it->begin(); iter != it->end(); ++iter, ++columns)
+        {
+            iter->row       = rows;
+            iter->column    = columns;
+        }
+        columns = 0;
+    }
+}
+
+void MethodTableModel::resize_headers()
+{
+    horizontalHeaders.resize(m_columns);
+    int columns = 0;
+
+    for(std::vector<Table_Header>::iterator cols = horizontalHeaders.begin(); cols != horizontalHeaders.end(); ++cols, ++columns)
+        cols->section = columns;
+}
+
+void MethodTableModel::addSelectedRow(int row)
+{
+    for(std::vector<int>::iterator it = selectedRows.begin(); it != selectedRows.end(); it++)
+        if(row == *(it))
+            return;
+    selectedRows.push_back(row);
+}
+
+void MethodTableModel::removeSelectedRow(int row)
+{
+    for(std::vector<int>::iterator it = selectedRows.begin(); it != selectedRows.end() && selectedRows.size() != 0; it++)
+        if(row == *(it))
+            selectedRows.erase(it);
+}
+
+// *** SLOTS ***
+
+void MethodTableModel::updateSelection(QItemSelection selected, QItemSelection deselected)
+{
+    QModelIndexList indexes = selected.indexes();
+    QModelIndexList deindexes = deselected.indexes();
+    for (int i = 0; i < deindexes.count(); ++i)
+        removeSelectedRow(deindexes.at(i).row());
+    for (int i = 0; i < indexes.count(); ++i)
+        addSelectedRow(indexes.at(i).row());
+}
+
+void MethodTableModel::updateWasteTime(const QTime& time)
+{
+    for(std::vector<int>::iterator it = selectedRows.begin(); it != selectedRows.end(); it++)
+        setData(index(*it, 0), time);
+}
+void MethodTableModel::updateSampleTime(const QTime& time)
+{
+    for(std::vector<int>::iterator it = selectedRows.begin(); it != selectedRows.end(); it++)
+        setData(index(*it, 1), time);
 }

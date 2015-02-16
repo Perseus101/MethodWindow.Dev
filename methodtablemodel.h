@@ -7,6 +7,8 @@
 #include <QAbstractTableModel>
 #include <QMessageBox>
 #include <QTime>
+#include <QDebug>
+#include "ui_methodwindow.h"
 
 #include "globals.h"
 
@@ -53,10 +55,21 @@ public:
     int getStepSeconds(int row);
     int getRunSeconds();
 
+public slots:
+
+    void updateSelection(QItemSelection, QItemSelection);
+    void updateWasteTime(const QTime& time);
+    void updateSampleTime(const QTime& time);
 private:
     int m_rows, m_columns; // Holds the number of rows and columns the table has
     std::vector<std::vector<Table_Data> > m_gridData; // Hold inputted data
     std::vector<Table_Header> horizontalHeaders; // Hold headers
+
+    std::vector<int> selectedRows; // Hold which rows are highlighted for editing by the user
+
+    void addSelectedRow(int row);
+    void removeSelectedRow(int row);
+
     void resize_data();
     void resize_headers();
 };

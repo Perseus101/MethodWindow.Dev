@@ -50,12 +50,17 @@ void MethodWindow::setupTables()
 //    model.setHeaderData(3, Qt::Horizontal, QObject::tr("Total Time"));
 //    model.setHeaderData(4, Qt::Horizontal, QObject::tr("Total Time"));
 
-    ui->tableView->setItemDelegate(new QTimeEdit());
+    //ui->tableView->setItemDelegate();
 
     ui->tableView->resizeRowsToContents();
     ui->tableView->resizeColumnsToContents();
 
     ui->tableView->setWindowTitle(QObject::tr("Method Edit"));
+
+    connect(ui->tableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), &model, SLOT(updateSelection(QItemSelection, QItemSelection)));
+    connect(ui->wasteTime, SIGNAL(timeChanged(const QTime&)), &model, SLOT(updateWasteTime(const QTime&)));
+    connect(ui->sampleTime, SIGNAL(timeChanged(const QTime&)), &model, SLOT(updateSampleTime(const QTime&)));
+
     ui->tableView->show();
 
     // Position Data
@@ -114,7 +119,6 @@ void MethodWindow::setupRecentSettings()
     settingsLoaded = numSettingsFiles;
 
     app_settings.endGroup();
-
 }
 
 void MethodWindow::setupRecentFiles()
