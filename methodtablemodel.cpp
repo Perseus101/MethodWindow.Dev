@@ -7,7 +7,8 @@ MethodTableModel::MethodTableModel(QObject *parent, int p_rows, int p_columns)
       edited(false),
       m_FileName(""),
       m_rows(p_rows),
-      m_columns(p_columns)
+      m_columns(p_columns),
+      pasteRow(0)
 {
     resize_data();
     resize_headers();
@@ -77,9 +78,8 @@ bool MethodTableModel::setData(const QModelIndex & index, const QVariant & value
                 if(index.row() == iter->row && index.column() == iter->column)
                 {
                     // Update data in vector
-                    QTime temp = qvariant_cast<QTime>(value);
-                    if(temp.isValid() && !temp.isNull())
-                        iter->data = qvariant_cast<QTime>(value);
+                    if(value.toTime().isValid() && !value.toTime().isNull())
+                        iter->data = value.toTime();
                     else
                         iter->data = QTime(0,0,0);
                     // Update total time
@@ -278,5 +278,22 @@ void MethodTableModel::updateSampleTime(const QTime& time)
 {
     for(std::vector<int>::iterator it = selectedRows.begin(); it != selectedRows.end(); it++)
         setData(index(*it, 1), time);
+    refresh();
+}
+
+void MethodTableModel::setPasteRow(int row)
+{
+    pasteRow = row;
+}
+
+void MethodTableModel::paste()
+{
+    int i = 0;
+    for(std::vector<int>::iterator it = selectedRows.begin(); it != selectedRows.end(); it++)
+    {
+        setData(index(pasteRow+i, 0), index(*it, 0).data());
+        setData(index(pasteRow+i, 1), index(*it, 1).data());
+        i++;
+    }
     refresh();
 }

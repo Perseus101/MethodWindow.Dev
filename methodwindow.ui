@@ -371,7 +371,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinBox_CopyToIndex">
+          <widget class="QSpinBox" name="copyToIndex">
            <property name="font">
             <font>
              <pointsize>28</pointsize>

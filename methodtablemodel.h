@@ -61,6 +61,9 @@ public slots:
     void updateWasteTime(const QTime& time);
     void updateSampleTime(const QTime& time);
 
+    void setPasteRow(int row);
+    void paste();
+
 signals:
 
     void setBaseWasteTime(const QTime& time);
@@ -72,6 +75,8 @@ private:
     std::vector<Table_Header> horizontalHeaders; // Hold headers
 
     std::vector<int> selectedRows; // Hold which rows are highlighted for editing by the user
+
+    int pasteRow;
 
     void addSelectedRow(int row);
     void removeSelectedRow(int row);

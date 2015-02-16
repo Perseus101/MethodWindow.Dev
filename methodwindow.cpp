@@ -69,6 +69,9 @@ void MethodWindow::setupTables()
     ui->sampleTime->setDisplayFormat("HH:mm");
     ui->sampleTime->setTime(QTime(0,0,0));
 
+    connect(ui->copyToIndex, SIGNAL(valueChanged(int)), &model, SLOT(setPasteRow(int)));
+    connect(ui->copyToAlt, SIGNAL(clicked()), &model, SLOT(paste()));
+
     ui->tableView->show();
 
     // Position Data
