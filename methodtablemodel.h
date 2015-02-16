@@ -60,6 +60,12 @@ public slots:
     void updateSelection(QItemSelection, QItemSelection);
     void updateWasteTime(const QTime& time);
     void updateSampleTime(const QTime& time);
+
+signals:
+
+    void setBaseWasteTime(const QTime& time);
+    void setBaseSampleTime(const QTime& time);
+
 private:
     int m_rows, m_columns; // Holds the number of rows and columns the table has
     std::vector<std::vector<Table_Data> > m_gridData; // Hold inputted data

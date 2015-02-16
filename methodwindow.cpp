@@ -58,8 +58,16 @@ void MethodWindow::setupTables()
     ui->tableView->setWindowTitle(QObject::tr("Method Edit"));
 
     connect(ui->tableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), &model, SLOT(updateSelection(QItemSelection, QItemSelection)));
+
     connect(ui->wasteTime, SIGNAL(timeChanged(const QTime&)), &model, SLOT(updateWasteTime(const QTime&)));
+    connect(&model, SIGNAL(setBaseWasteTime(QTime)), ui->wasteTime, SLOT(setTime(QTime)));
+    ui->wasteTime->setDisplayFormat("HH:mm");
+    ui->wasteTime->setTime(QTime(0,0,0));
+
     connect(ui->sampleTime, SIGNAL(timeChanged(const QTime&)), &model, SLOT(updateSampleTime(const QTime&)));
+    connect(&model, SIGNAL(setBaseSampleTime(QTime)), ui->sampleTime, SLOT(setTime(QTime)));
+    ui->sampleTime->setDisplayFormat("HH:mm");
+    ui->sampleTime->setTime(QTime(0,0,0));
 
     ui->tableView->show();
 
