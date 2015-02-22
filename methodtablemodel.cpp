@@ -248,7 +248,7 @@ void MethodTableModel::addSelectedRow(int row)
     if(selectedRows.size() == 1)
     {
         setBaseWasteTime(index(row, 0).data() == QVariant() ? QTime(0,0,0) : index(row, 0).data().toTime());
-        setBaseWasteTime(index(row, 1).data() == QVariant() ? QTime(0,0,0) : index(row, 1).data().toTime());
+        setBaseSampleTime(index(row, 1).data() == QVariant() ? QTime(0,0,0) : index(row, 1).data().toTime());
     }
 
 }
