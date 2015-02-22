@@ -186,10 +186,12 @@ void MethodRun::stopSequence()
 
 QString formatHMS(int ms)
 {
-    int seconds = (int) (ms / 1000) % 60 ;
-    int minutes = (int) ((ms / (1000*60)) % 60);
-    int hours   = (int) ((ms / (1000*60*60)) % 24);
-    return QString("%1:%2:%3").arg(hours).arg(minutes).arg(seconds);
+//    int milliseconds = (int) (ms) % 1000;
+    int seconds      = (int) (ms / 1000) % 60 ;
+    int minutes      = (int) ((ms / (1000*60)) % 60);
+    int hours        = (int) ((ms / (1000*60*60)) % 24);
+
+    return QString("%1:%2:%3").arg(hours).arg(minutes).arg(seconds)/*.arg(milliseconds)*/;
 }
 
 void MethodRun::stepLoop()
@@ -210,6 +212,8 @@ void MethodRun::stepLoop()
             {
                 setRunMS(m_data->getRunSeconds() * 1000);
 
+                qDebug() << "Run: " << m_data->getRunSeconds();
+
                 startStep = true;
                 startAction = true;
 
@@ -223,6 +227,7 @@ void MethodRun::stepLoop()
                 {
                     sample++;
                     setStepMS(m_data->getStepSeconds(sample) * 1000);
+                    qDebug() << "Step: " << m_data->getStepSeconds(sample);
                 }
                 while(stepMS == 0 && sample < SAMPLES); // Account for empty steps and go to next
 
@@ -251,6 +256,7 @@ void MethodRun::stepLoop()
                 {
                     action++;
                     setActionMS(m_data->getActionSeconds(sample,action) * 1000);
+                    qDebug() << "Action: " << m_data->getActionSeconds(sample,action);
                 }
                 while(actionMS == 0 && action < 1); //Account for empty actions and go to next
 

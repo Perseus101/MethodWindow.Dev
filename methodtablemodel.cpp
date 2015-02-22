@@ -186,21 +186,31 @@ void MethodTableModel::reinitialize()
 
 int MethodTableModel::getActionSeconds(int row, int column)
 {
-    QTime temp = qvariant_cast<QTime>(data(index(row,column)));
-    int time = 0;
-    time += temp.hour()*3600;
-    time += temp.minute()*60;
-    time += temp.second();
-    return time;
+    QTime temp = data(index(row,column)).toTime();
+    if(temp.isValid() && !temp.isNull())
+    {
+        int time = 0;
+        time += temp.hour()*3600;
+        time += temp.minute()*60;
+        time += temp.second();
+        return time;
+    }
+    else
+        return 0;
 }
 int MethodTableModel::getStepSeconds(int row)
 {
-    QTime temp = qvariant_cast<QTime>(data(index(row,STEPS)));
-    int time = 0;
-    time += temp.hour()*3600;
-    time += temp.minute()*60;
-    time += temp.second();
-    return time;
+    QTime temp = data(index(row,STEPS-1)).toTime();
+    if(temp.isValid() && !temp.isNull())
+    {
+        int time = 0;
+        time += temp.hour()*3600;
+        time += temp.minute()*60;
+        time += temp.second();
+        return time;
+    }
+    else
+        return 0;
 }
 int MethodTableModel::getRunSeconds()
 {
