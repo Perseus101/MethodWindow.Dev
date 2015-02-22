@@ -188,7 +188,7 @@ int MethodTableModel::getActionSeconds(int row, int column)
 {
     QTime temp = qvariant_cast<QTime>(data(index(row,column)));
     int time = 0;
-    time += temp.hour()*360;
+    time += temp.hour()*3600;
     time += temp.minute()*60;
     time += temp.second();
     return time;
@@ -197,7 +197,7 @@ int MethodTableModel::getStepSeconds(int row)
 {
     QTime temp = qvariant_cast<QTime>(data(index(row,STEPS)));
     int time = 0;
-    time += temp.hour()*360;
+    time += temp.hour()*3600;
     time += temp.minute()*60;
     time += temp.second();
     return time;

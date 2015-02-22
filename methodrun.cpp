@@ -32,7 +32,7 @@ void MethodRun::run()
     // Initialize thread
     QTimer timer (0);
     timer.moveToThread(this); // Make timer handled by this thread's execution loop
-    timer.setInterval(1000);
+    timer.setInterval(ui->loopSpeed->value());
     connect(&timer, SIGNAL(timeout()), this, SLOT(stepLoop()));
     timer.start();
 
@@ -100,7 +100,7 @@ void MethodRun::updatePumpStat()
 
 void MethodRun::setActionMS(int ms)
 {
-//    if(ms==0) ms=5000;
+    //    if(ms==0) ms=5000;
     actionMS = ms;
     ui->progressBarAction->setMaximum(ms);
 }
@@ -119,11 +119,13 @@ void MethodRun::setRunMS(int ms)
 
 void MethodRun::startSequence()
 {
+    mutex.lock();
     ui->startButton->setEnabled(false);
+
     if (!ui->checkNoCom->isChecked()) handler->openSerialPort();
     if (!ui->checkNoCom->isChecked()) handler->sendInit();
-    mutex.lock();
-     if (!ui->checkNoCom->isChecked()) handler->sendMGHP();
+    if (!ui->checkNoCom->isChecked()) handler->sendMGHP();
+
     startRun = true;
     running = true;
     mutex.unlock();
@@ -137,7 +139,8 @@ void MethodRun::pauseSequence()
         mutex.lock();
         pauseThread = true;
         if (pumpOn) {
-             if (!ui->checkNoCom->isChecked()) handler->pumpOff();
+            if (!ui->checkNoCom->isChecked()) handler->pumpOff();
+
             pausePump = true;
             pumpOn = false;
         }
@@ -150,7 +153,9 @@ void MethodRun::pauseSequence()
         mutex.lock();
         pauseThread = false;
         if (pausePump) {
-             if (!ui->checkNoCom->isChecked()) handler->pumpOn();
+
+            if (!ui->checkNoCom->isChecked()) handler->pumpOn();
+
             pausePump = false;
             pumpOn = true;
         }
@@ -163,17 +168,29 @@ void MethodRun::pauseSequence()
 
 void MethodRun::stopSequence()
 {
-     if (!ui->checkNoCom->isChecked()) handler->moveToZero();  //go back to zero at finish
+
+    if (!ui->checkNoCom->isChecked()) handler->moveToZero();  //go back to zero at finish
+
     mutex.unlock();
     ui->startButton->setEnabled(true);
     QTest::qWait(1000);
-     if (!ui->checkNoCom->isChecked()) handler->pumpOff();
+
+    if (!ui->checkNoCom->isChecked()) handler->pumpOff();
+
     pumpOn = false;
     updatePumpStat();
 
     reset();
 }
 
+
+QString formatHMS(int ms)
+{
+    int seconds = (int) (ms / 1000) % 60 ;
+    int minutes = (int) ((ms / (1000*60)) % 60);
+    int hours   = (int) ((ms / (1000*60*60)) % 24);
+    return QString("%1:%2:%3").arg(hours).arg(minutes).arg(seconds);
+}
 
 void MethodRun::stepLoop()
 {
@@ -183,10 +200,10 @@ void MethodRun::stepLoop()
 
         if(!pauseThread)
         {
-              // update time for all sections if not paused....
-            elapsedActionMS+= 10 * ui->accelerationMultiplier->value();
-            elapsedStepMS+= 10* ui->accelerationMultiplier->value();
-            elapsedRunMS+= 10* ui->accelerationMultiplier->value();
+            // update time for all sections if not paused....
+            elapsedActionMS+= ui->loopSpeed->value() * ui->accelerationMultiplier->value();
+            elapsedStepMS+= ui->loopSpeed->value() * ui->accelerationMultiplier->value();
+            elapsedRunMS+= ui->loopSpeed->value() * ui->accelerationMultiplier->value();
             //chddm 12-29  cut clock cycle to 10 ms from one...
 
             if(startRun)          //  set all params for beginning of run
@@ -212,8 +229,10 @@ void MethodRun::stepLoop()
                 if(sample == SAMPLES) // All steps completed
                 {
                     pumpOn=false;
+
                     if (!ui->checkNoCom->isChecked()) handler->pumpOff();
                     if (!ui->checkNoCom->isChecked()) handler->moveToZero();  //go back to zero to finish
+
                     ui->startButton->setEnabled(true);
                     mutex.unlock();
                     QTest::qWait(1000);
@@ -290,23 +309,23 @@ void MethodRun::stepLoop()
             }
 
             // Update graphics with relevant information
+
             ui->progressBarAction->setValue(elapsedActionMS);
             ui->progressBarStep->setValue(elapsedStepMS);
             ui->progressBarRun->setValue(elapsedRunMS);
 
-//            ui->timeActionRemaining->display(HMS((actionMS - elapsedActionMS)/1000).getHMS());
-//            ui->timeStepRemaining->display(HMS((stepMS - elapsedStepMS)/1000).getHMS());
-//            ui->timeRunRemaining->display(HMS((runMS - elapsedRunMS)/1000).getHMS());
+            ui->timeActionRemaining->display(formatHMS(actionMS - elapsedActionMS));
+            ui->timeStepRemaining->display(formatHMS(stepMS - elapsedStepMS));
+            ui->timeRunRemaining->display(formatHMS(runMS - elapsedRunMS));
 
-//            ui->timeActionTotal->display(HMS(actionMS/1000).getHMS());
-//            ui->timeStepTotal->display(HMS(stepMS/1000).getHMS());
-//            ui->timeRunTotal->display(HMS(runMS/1000).getHMS());
+            ui->timeActionTotal->display(formatHMS(actionMS));
+            ui->timeStepTotal->display(formatHMS(stepMS));
+            ui->timeRunTotal->display(formatHMS(runMS));
 
             ui->currentRun->setText(m_data->m_FileName);
             ui->currentStep->setText(QString("%1").arg(sample + 1));
             ui->currentAction->setText(column_Headers[action]);
         }
-
         mutex.unlock();
     }
 }
