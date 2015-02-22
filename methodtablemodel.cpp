@@ -37,7 +37,9 @@ QVariant MethodTableModel::data(const QModelIndex &index, int role) const
             for(std::vector< std::vector<Table_Data> >::const_iterator it = m_gridData.begin(); it != m_gridData.end(); ++it)
                 for(std::vector<Table_Data>::const_iterator iter = it->begin(); iter != it->end(); ++iter)
                     if(index.row() == iter->row && index.column() == iter->column)
-                        return static_cast<QVariant>(iter->data.toString("hh:mm"));
+                        return ((iter->data == QTime(0,0,0)) ?
+                                    QVariant() :
+                                    (static_cast<QVariant>(iter->data.toString("hh:mm"))));
         }
             break;
         default:
@@ -245,8 +247,8 @@ void MethodTableModel::addSelectedRow(int row)
     selectedRows.push_back(row);
     if(selectedRows.size() == 1)
     {
-        setBaseWasteTime(index(row, 0).data().toTime());
-        setBaseSampleTime(index(row, 1).data().toTime());
+        setBaseWasteTime(index(row, 0).data() == QVariant() ? QTime(0,0,0) : index(row, 0).data().toTime());
+        setBaseWasteTime(index(row, 1).data() == QVariant() ? QTime(0,0,0) : index(row, 1).data().toTime());
     }
 
 }
