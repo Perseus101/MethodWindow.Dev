@@ -223,7 +223,6 @@ void MethodRun::stepLoop()
             {
                 setRunMS(m_data->getRunSeconds() * 1000);
 
-                qDebug() << "Run: " << m_data->getRunSeconds();
 
                 startStep = true;
                 startAction = true;
@@ -238,7 +237,6 @@ void MethodRun::stepLoop()
                 {
                     sample++;
                     setStepMS(m_data->getStepSeconds(sample) * 1000);
-                    qDebug() << "Step: " << m_data->getStepSeconds(sample);
                 }
                 while(stepMS == 0 && sample < SAMPLES); // Account for empty steps and go to next
 
@@ -267,7 +265,6 @@ void MethodRun::stepLoop()
                 {
                     action++;
                     setActionMS(m_data->getActionSeconds(sample,action) * 1000);
-                    qDebug() << "Action: " << m_data->getActionSeconds(sample,action);
                 }
                 while(actionMS == 0 && action < 1); //Account for empty actions and go to next
 
