@@ -191,7 +191,18 @@ QString formatHMS(int ms)
     int minutes      = (int) ((ms / (1000*60)) % 60);
     int hours        = (int) ((ms / (1000*60*60)) % 24);
 
-    return QString("%1:%2:%3").arg(hours).arg(minutes).arg(seconds)/*.arg(milliseconds)*/;
+    QString m,s;
+
+    if(minutes < 10)
+        m = QString("0%1:").arg(minutes);
+    else
+        m = QString("%1:").arg(minutes);
+    if(seconds < 10)
+        s = QString("0%1").arg(seconds);
+    else
+        s = QString("%1").arg(seconds);
+
+    return QString("%1:").arg(hours).append(m).append(s);
 }
 
 void MethodRun::stepLoop()
