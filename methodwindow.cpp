@@ -75,7 +75,7 @@ void MethodWindow::setupTables()
     ui->tableView->show();
 
     // Position Data
-    QStandardItemModel *posDatModel = new QStandardItemModel(SAMPLES, 1);
+    posDatModel = new QStandardItemModel(SAMPLES, 1);
     ui->tablePosData->setModel(posDatModel);
     posDatModel->setHeaderData(0, Qt::Horizontal, QObject::tr("Position (mm)"));
     for(int i = 0; i < SAMPLES; ++i)
@@ -88,7 +88,10 @@ void MethodWindow::setupTables()
 
     ui->tablePosData->setItemDelegate(new SpinBoxDelegate());
 
-    // Date time format
+    // Update Pos Data when position 1 and 13 are inputted
+
+    connect(ui->positionOne, SIGNAL(valueChanged(double)), this, SLOT(pos_one(double)));
+    connect(ui->positionThirteen, SIGNAL(valueChanged(double)), this, SLOT(pos_thirteen(double)));
 
     ui->tablePosData->show();
 }
@@ -403,4 +406,20 @@ void MethodWindow::about()
 void MethodWindow::cleanup()
 {
 //    softKeyboard->cleanup();
+}
+
+void MethodWindow::pos_one(double in)
+{
+    for(int i = 0; i < 12; ++i)
+        posDatModel->setData(posDatModel->index(i,0), in + 9*i);
+    for(int i = 24; i < 36; ++i)
+        posDatModel->setData(posDatModel->index(i,0), in + 9*(i-24));
+}
+
+void MethodWindow::pos_thirteen(double in)
+{
+    for(int i = 12; i < 24; ++i)
+        posDatModel->setData(posDatModel->index(i,0), in + 9*(i-12));
+    for(int i = 36; i < 48; ++i)
+        posDatModel->setData(posDatModel->index(i,0), in + 9*(i-36));
 }

@@ -42,6 +42,7 @@ private:
     Ui::NewMethod *ui;
     MethodRun *methodManager;
     MethodTableModel model;
+    QStandardItemModel *posDatModel;
     //HMSDelegate delegate;
     //SoftKeyboard *softKeyboard;
     SettingsDialog *serialComms;
@@ -77,6 +78,9 @@ protected slots:
     void about();
 
     void cleanup();
+
+    void pos_one(double in);
+    void pos_thirteen(double in);
 
 };
 
