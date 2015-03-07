@@ -194,10 +194,14 @@ void MethodRun::stopSequence()
 
 QString formatHMS(int ms)
 {
-//    int milliseconds = (int) (ms) % 1000;
+    int milliseconds = (int) (ms) % 1000;
     int seconds      = (int) (ms / 1000) % 60 ;
     int minutes      = (int) ((ms / (1000*60)) % 60);
     int hours        = (int) ((ms / (1000*60*60)) % 24);
+//    int seconds      = (int) (ms / 1000) % 60 ;
+//    int minutes      = (int) ((ms / 1000)/60) % 60;
+//    int hours        = (int) (((ms / 1000)/60)/60) % 24;
+
 
     QString m,s;
 
@@ -221,11 +225,10 @@ void MethodRun::stepLoop()
 
         if(!pauseThread)
         {
-            // update time for all sections if not paused....
+            // update time for all sections if not paused....  and correct for increment passs through..(DDM)
             elapsedActionMS+= ui->loopSpeed->value() * ui->accelerationMultiplier->value();
-            elapsedStepMS+= ui->loopSpeed->value() * ui->accelerationMultiplier->value();
-            elapsedRunMS+= ui->loopSpeed->value() * ui->accelerationMultiplier->value();
-            //chddm 12-29  cut clock cycle to 10 ms from one...
+            if(elapsedActionMS <= actionMS) elapsedStepMS+= ui->loopSpeed->value() * ui->accelerationMultiplier->value();
+            if(elapsedActionMS <= actionMS && elapsedStepMS <=stepMS) elapsedRunMS+= ui->loopSpeed->value() * ui->accelerationMultiplier->value();
 
             if(startRun)          //  set all params for beginning of run
             {
@@ -342,6 +345,7 @@ void MethodRun::stepLoop()
                 QTest::qWait(2000);
 
                 //Reset to next action
+               // if (action >= 1) startStep=true;
                 startAction = true;
                 running = true;
                 ui->stopButton->setEnabled(true);

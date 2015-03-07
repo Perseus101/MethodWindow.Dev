@@ -193,6 +193,7 @@ int MethodTableModel::getActionSeconds(int row, int column)
         time += temp.hour()*3600;
         time += temp.minute()*60;
         time += temp.second();
+        qDebug()<< "action seconds  -- "<< time;
         return time;
     }
     else
@@ -207,6 +208,7 @@ int MethodTableModel::getStepSeconds(int row)
         time += temp.hour()*3600;
         time += temp.minute()*60;
         time += temp.second();
+        qDebug()<< "step seconds  -- "<< time;
         return time;
     }
     else
@@ -219,6 +221,7 @@ int MethodTableModel::getRunSeconds()
     {
         temp += getStepSeconds(i);
     }
+    qDebug()<< "run seconds  --  "<< temp;
     return temp;
 }
 

@@ -43,14 +43,14 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>18</pointsize>
+      <pointsize>24</pointsize>
      </font>
     </property>
     <property name="styleSheet">
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="SequenceEdit">
      <property name="minimumSize">
@@ -185,7 +185,7 @@
         <x>0</x>
         <y>130</y>
         <width>711</width>
-        <height>271</height>
+        <height>261</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -245,10 +245,10 @@ QTimeEdit::down-button { width: 140px; height: 130px; }</string>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>1</x>
-        <y>399</y>
+        <x>0</x>
+        <y>400</y>
         <width>711</width>
-        <height>271</height>
+        <height>261</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -337,7 +337,7 @@ QSpinBox::down-button { width: 140px; height: 130px; }
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>560</y>
+        <y>530</y>
         <width>1271</width>
         <height>111</height>
        </rect>
@@ -478,7 +478,7 @@ QSpinBox::down-button { width: 140px; height: 130px; }
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton { border: 5px solid blue; border-radius: 20px; font-size: 24px; background-color:lightGray ;}</string>
+          <string notr="true">QPushButton { border: 5px solid blue; border-radius: 20px; font-size: 30px; background-color:lightGray ;}</string>
          </property>
          <property name="text">
           <string>Pause Sequence</string>
@@ -502,7 +502,7 @@ QSpinBox::down-button { width: 140px; height: 130px; }
           <bool>false</bool>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton { border: 5px solid blue; border-radius: 20px; font-size: 24px; background-color:lightGray ;}</string>
+          <string notr="true">QPushButton { border: 5px solid blue; border-radius: 20px; font-size: 30px; background-color:lightGray ;}</string>
          </property>
          <property name="text">
           <string>Start Sequence</string>
@@ -523,7 +523,7 @@ QSpinBox::down-button { width: 140px; height: 130px; }
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton { border: 5px solid blue; border-radius: 20px; font-size: 24px; background-color:lightGray ;}</string>
+          <string notr="true">QPushButton { border: 5px solid blue; border-radius: 20px; font-size: 30px; background-color:lightGray ;}</string>
          </property>
          <property name="text">
           <string>Halt Sequence </string>
@@ -538,7 +538,7 @@ QSpinBox::down-button { width: 140px; height: 130px; }
         <x>0</x>
         <y>28</y>
         <width>1271</width>
-        <height>521</height>
+        <height>471</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_TimeTracker">
@@ -920,7 +920,7 @@ QSpinBox::down-button { width: 140px; height: 130px; }
      <widget class="QLineEdit" name="pumpStat">
       <property name="geometry">
        <rect>
-        <x>620</x>
+        <x>720</x>
         <y>0</y>
         <width>171</width>
         <height>51</height>
@@ -953,7 +953,7 @@ QSpinBox::down-button { width: 140px; height: 130px; }
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>400</y>
+        <y>370</y>
         <width>236</width>
         <height>50</height>
        </rect>
@@ -975,12 +975,12 @@ QSpinBox::down-button { width: 140px; height: 130px; }
        <string>Service Menu</string>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>-3</y>
-        <width>501</width>
+        <width>556</width>
         <height>281</height>
        </rect>
       </property>
@@ -1055,8 +1055,6 @@ QSpinBox::down-button { width: 140px; height: 130px; }
          <property name="font">
           <font>
            <pointsize>-1</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
           </font>
          </property>
          <property name="styleSheet">
@@ -1069,11 +1067,11 @@ QSpinBox::down-button { width: 140px; height: 130px; }
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>450</y>
+        <y>420</y>
         <width>348</width>
         <height>227</height>
        </rect>
@@ -1091,7 +1089,8 @@ QSpinBox::down-button { width: 140px; height: 130px; }
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">QCheckBox::indicator { width:50px; height: 50px; }</string>
+            <string notr="true">QCheckBox::indicator { width:50px; height: 50px; }
+QCheckBox::indicator:checked {width: 50px;height: 50px; }</string>
            </property>
            <property name="text">
             <string>No Comm - Dry Run</string>
@@ -1237,14 +1236,16 @@ QSpinBox::down-button { width: 55px; height: 30px; }</string>
       <property name="geometry">
        <rect>
         <x>560</x>
-        <y>460</y>
-        <width>233</width>
+        <y>430</y>
+        <width>261</width>
         <height>44</height>
        </rect>
       </property>
       <property name="font">
        <font>
         <pointsize>24</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
        </font>
       </property>
       <property name="text">
@@ -1255,7 +1256,7 @@ QSpinBox::down-button { width: 55px; height: 30px; }</string>
       <property name="geometry">
        <rect>
         <x>580</x>
-        <y>500</y>
+        <y>470</y>
         <width>340</width>
         <height>180</height>
        </rect>
@@ -1290,7 +1291,7 @@ QDoubleSpinBox::down-button { width: 120px; height: 100px; }</string>
       <property name="geometry">
        <rect>
         <x>560</x>
-        <y>230</y>
+        <y>220</y>
         <width>262</width>
         <height>44</height>
        </rect>
@@ -1310,7 +1311,7 @@ QDoubleSpinBox::down-button { width: 120px; height: 100px; }</string>
       <property name="geometry">
        <rect>
         <x>580</x>
-        <y>270</y>
+        <y>260</y>
         <width>340</width>
         <height>180</height>
        </rect>
@@ -1396,16 +1397,16 @@ QDoubleSpinBox::down-button { width: 120px; height: 100px; }</string>
        <double>0.100000000000000</double>
       </property>
      </widget>
-     <zorder>openDeviceSettings</zorder>
-     <zorder>layoutWidget</zorder>
+     <zorder>wastePosition</zorder>
+     <zorder>positionThirteen_Lbl</zorder>
+     <zorder>positionThirteen</zorder>
+     <zorder>positionOne_Lbl</zorder>
+     <zorder>positionOne</zorder>
      <zorder>layoutWidget</zorder>
      <zorder>layoutWidget</zorder>
      <zorder>tablePosData</zorder>
-     <zorder>label</zorder>
-     <zorder>loopSpeed</zorder>
-     <zorder>checkNoCom</zorder>
      <zorder>label_2</zorder>
-     <zorder></zorder>
+     <zorder>wastePosition_Lbl</zorder>
     </widget>
    </widget>
   </widget>
@@ -1415,12 +1416,12 @@ QDoubleSpinBox::down-button { width: 120px; height: 100px; }</string>
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>37</height>
+     <height>48</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>16</pointsize>
+     <pointsize>22</pointsize>
     </font>
    </property>
    <widget class="QMenu" name="menuMethod_Sequence">
@@ -1439,6 +1440,11 @@ QDoubleSpinBox::down-button { width: 120px; height: 100px; }</string>
      <string>System Setup</string>
     </property>
     <widget class="QMenu" name="menuOpen_Settings_File">
+     <property name="font">
+      <font>
+       <pointsize>26</pointsize>
+      </font>
+     </property>
      <property name="title">
       <string>Open Settings File</string>
      </property>
@@ -1475,25 +1481,50 @@ QDoubleSpinBox::down-button { width: 120px; height: 100px; }</string>
    <property name="text">
     <string>Open</string>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>26</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionSave">
    <property name="text">
     <string>Save</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>26</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionSave_As">
    <property name="text">
     <string>Save As</string>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>26</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>26</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionSave_Settings_File">
    <property name="text">
     <string>Save Settings File</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>26</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionHelp_Method_Edit">
@@ -1504,6 +1535,11 @@ QDoubleSpinBox::down-button { width: 120px; height: 100px; }</string>
   <action name="actionAbout_Method_Edit">
    <property name="text">
     <string>About Method Edit</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionToggle_Log">
@@ -1524,6 +1560,11 @@ QDoubleSpinBox::down-button { width: 120px; height: 100px; }</string>
   <action name="actionNew">
    <property name="text">
     <string>New</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>26</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionBrowse">

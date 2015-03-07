@@ -18,8 +18,8 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 
 TARGET = MethodWindow
 TEMPLATE = app
-#target.path=/home/pi/Method_Window
-#INSTALLS += target
+target.path=/home/pi/Method_Window
+INSTALLS += target
 
 
 SOURCES += main.cpp\
