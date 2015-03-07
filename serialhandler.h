@@ -5,8 +5,10 @@
 #include <QSerialPort>
 #include <QTableView>
 #include <QTest>
+#include <QTime>
 #include <QByteArray>
 #include <QDebug>
+#include <QStringList>
 
 
 
@@ -24,7 +26,7 @@ public slots:
     void openSerialPort();
     void closeSerialPort();
     void moveToSample(int sample);
-    void moveToWaste(int waste_position);
+    void moveToWaste(float waste_position);
     void moveToZero();
     void pumpOn();
     void pumpOff();
@@ -34,20 +36,18 @@ public slots:
 private slots:
     void writeData(const QByteArray &data);
     void readData();
-    void sendMoveAbsolute(int position);
+    void sendMoveAbsolute(float position);
     void sendMoveIncrement();
     void sendSetOut(bool on);
     void sendReadIn();
 
     void handleError(QSerialPort::SerialPortError error);
-    void waitTillReady();
 
 private:
     SettingsDialog *settings;
     QTableView *positionData;
-
-
-
+    QByteArray msgList;
+    QFile logFile;
     bool open;
     int i;
 };

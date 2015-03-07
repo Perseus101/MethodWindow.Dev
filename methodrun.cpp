@@ -1,4 +1,4 @@
-#include "methodrun.h"
+﻿#include "methodrun.h"
 
 MethodRun::MethodRun(MethodTableModel *p_data,  Ui::NewMethod *p_ui, SettingsDialog *serialComms)
     : handler(new SerialHandler(serialComms, p_ui->tablePosData)),m_data(p_data), ui(p_ui), mutex()
@@ -85,8 +85,11 @@ void MethodRun::reset()
     ui->currentStep->setText("");
     ui->currentAction->setText("");
     ui->pauseButton->setText("Pause Sequence");
+    ui->pauseButton->setEnabled(false);
+    ui->stopButton->setEnabled(false);
 
     if (!ui->checkNoCom->isChecked()) handler->closeSerialPort();
+    ui->startButton->setEnabled(true);
     mutex.unlock();
 }
 
@@ -128,6 +131,9 @@ void MethodRun::startSequence()
 
     startRun = true;
     running = true;
+    ui->stopButton->setEnabled(true);
+    ui->pauseButton->setEnabled(true);
+
     mutex.unlock();
 }
 
@@ -169,9 +175,10 @@ void MethodRun::pauseSequence()
 void MethodRun::stopSequence()
 {
 
-    if (!ui->checkNoCom->isChecked()) handler->moveToZero();  //go back to zero at finish
-
     mutex.unlock();
+    ui->stopButton->setEnabled(false);
+    pauseThread = true;
+    if (!ui->checkNoCom->isChecked()) handler->moveToZero();  //go back to zero at finish
     ui->startButton->setEnabled(true);
     QTest::qWait(1000);
 
@@ -179,6 +186,7 @@ void MethodRun::stopSequence()
 
     pumpOn = false;
     updatePumpStat();
+    pauseThread = false;
 
     reset();
 }
@@ -237,20 +245,23 @@ void MethodRun::stepLoop()
                 {
                     sample++;
                     setStepMS(m_data->getStepSeconds(sample) * 1000);
+                    qDebug(QString("sample: %1").arg(sample).toStdString().c_str());
                 }
-                while(stepMS == 0 && sample < SAMPLES); // Account for empty steps and go to next
+                while(stepMS == 0 && sample < SAMPLES);
+                // Account for empty steps and go to next
 
                 if(sample == SAMPLES) // All steps completed
                 {
+                    running=false;
+                    qDebug("---- All Done ----");
                     pumpOn=false;
-
+                    //mutex.unlock();
+                    //running=false;
                     if (!ui->checkNoCom->isChecked()) handler->pumpOff();
                     if (!ui->checkNoCom->isChecked()) handler->moveToZero();  //go back to zero to finish
 
-                    ui->startButton->setEnabled(true);
                     mutex.unlock();
-                    QTest::qWait(1000);
-
+                    //QTest::qWait(1000);
                     reset();
                     return;
                 }
@@ -265,9 +276,13 @@ void MethodRun::stepLoop()
                 {
                     action++;
                     setActionMS(m_data->getActionSeconds(sample,action) * 1000);
+                    qDebug() << "action: " << action;
                 }
-                while(actionMS == 0 && action < 1); //Account for empty actions and go to next
+                while(actionMS == 0 && action < 1);
 
+                running=false;
+                ui->stopButton->setEnabled(false);
+                ui->pauseButton->setEnabled(false);
                 switch(action)
                 {
 
@@ -276,50 +291,63 @@ void MethodRun::stepLoop()
                     // *** Move to waste ***
                     if (!ui->checkNoCom->isChecked()) handler->moveToWaste(ui->wastePosition->value());
 
-                    //wait for transit
-                    // qwait transit time
-
                     // *** Turn on nozel ***
                     pumpOn = true;
                     if (!ui->checkNoCom->isChecked()) handler->pumpOn();
+
                 }
+
                     break;
 
                 case 1:// Sample
                 {
-                    // *** Move to sample ***
-                    if (!ui->checkNoCom->isChecked()) handler->moveToSample(sample);
+                    if (actionMS > 2000 ){
+                        // *** Move to sample ***
+                        if (!ui->checkNoCom->isChecked()) handler->moveToSample(sample);
 
-                    // wait for transit
-                    //qwait  transit time
-
-                    // *** Turn on nozel ***
-                    if (actionMS > 200 ) pumpOn=true;
-                    if (!ui->checkNoCom->isChecked()) handler->pumpOn();
+                        //  Turn on the pump
+                        pumpOn=true;
+                        if (!ui->checkNoCom->isChecked()) handler->pumpOn();
+                    }
                 }
                     break;
 
                 default:
                 {
                     startStep = true;
+                    qDebug() << QString("default case");
                 }
                     break;
                 }
 
                 startAction = false;
                 elapsedActionMS = 0;
-                updatePumpStat();
+                // updatePumpStat();
+                ui->stopButton->setEnabled(true);
+                ui->pauseButton->setEnabled(true);
+                running = true;
             }
 
             //Check for finished action
             if(elapsedActionMS >= actionMS)
             {
-                // *** Turn off nozel ***
+               // *** Turn off nozel ***
+                ui->stopButton->setEnabled(false);
+                ui->pauseButton->setEnabled(false);
+                running=false;
                 pumpOn=false;
                 if (!ui->checkNoCom->isChecked()) handler->pumpOff();
 
+                // wait for pump to stop dripping
+                QTest::qWait(2000);
+
                 //Reset to next action
                 startAction = true;
+                running = true;
+                ui->stopButton->setEnabled(true);
+                ui->pauseButton->setEnabled(true);
+
+
             }
 
             // Update graphics with relevant information
@@ -339,6 +367,7 @@ void MethodRun::stepLoop()
             ui->currentRun->setText(m_data->m_FileName);
             ui->currentStep->setText(QString("%1").arg(sample + 1));
             ui->currentAction->setText(column_Headers[action]);
+            updatePumpStat();
         }
         mutex.unlock();
     }

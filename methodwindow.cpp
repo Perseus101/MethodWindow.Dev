@@ -292,8 +292,8 @@ void MethodWindow::saveSettingsFile()
     settings.beginGroup("Instrument_Settings");
 
     settings.setValue("Last_Saved", ui->dateTimeEdit->dateTime());
-    settings.setValue("Last_Control_Send", ui->commSent->text());
-    settings.setValue("Last_Control_Return", ui->commRtn->text());
+   // settings.setValue("Last_Control_Send", ui->commSent->text());
+    //settings.setValue("Last_Control_Return", ui->commRtn->text());
 
     serialComms->saveSettings(&settings);
 
@@ -338,8 +338,8 @@ void MethodWindow::loadSettingsFile(int num)
     settings.beginGroup("Instrument_Settings");
 
     ui->dateTimeEdit->setDateTime(settings.value("Last_Saved","").toDateTime());
-    ui->commSent->setText(settings.value("Last_Control_Send", "").toString());
-    ui->commRtn->setText(settings.value("Last_Control_Return", "").toString());
+    //ui->commSent->setText(settings.value("Last_Control_Send", "").toString());
+    //ui->commRtn->setText(settings.value("Last_Control_Return", "").toString());
 
     serialComms->loadSettings(&settings);
 
@@ -351,7 +351,7 @@ void MethodWindow::loadSettingsFile(int num)
     {
         ui->tablePosData->model()->setData(ui->tablePosData->model()->index(i,0), settings.value(QString("Position_%1").arg(i), 0));
     }
-    ui->wastePosition->setValue(settings.value("Waste_Position", "").toInt());
+    ui->wastePosition->setValue(settings.value("Waste_Position", "").toFloat());
     settings.endGroup();
 }
 

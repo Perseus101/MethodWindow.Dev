@@ -1,4 +1,4 @@
-#ifndef METHODRUN_H
+﻿#ifndef METHODRUN_H
 #define METHODRUN_H
 
 #include <QThread>
@@ -42,8 +42,11 @@ public slots:
     void startSequence();
     void pauseSequence();
     void stopSequence();
-
     void stepLoop();
+
 };
 
 #endif // METHODRUN_H
+
+
+

@@ -295,7 +295,7 @@ void MethodTableModel::updateSampleTime(const QTime& time)
 
 void MethodTableModel::setPasteRow(int row)
 {
-    pasteRow = row;
+    pasteRow = row-1;
 }
 
 void MethodTableModel::paste()
