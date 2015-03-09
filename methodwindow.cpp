@@ -184,7 +184,9 @@ void MethodWindow::closeEvent(QCloseEvent *e)
 
 void MethodWindow::loadFile()
 {
-    QString filename = QFileDialog::getOpenFileName(this);
+    QString filename = QFileDialog::getOpenFileName(this,tr("Open File"),
+       "/home/pi/Method_Window/Methods/",
+       tr("Methods (*.csv)"));
     QFile file(filename);
     if (file.open(QIODevice::ReadOnly|QIODevice::Text)){
         model.setDataFromCSV(QString::fromUtf8(file.readAll()));
@@ -212,49 +214,41 @@ void MethodWindow::saveFile(const QString &name)
     }
 }
 
+void MethodWindow::saveFileAs()
+{
+    model.m_FileName = QFileDialog::getSaveFileName(this, tr("Save File"),
+             "/home/pi/Method_Window/Methods/Method--" + QDateTime::currentDateTime().toString() +".csv",
+              tr("Methods (*.csv)"));
+    if(model.m_FileName.isEmpty())
+        return;
+    saveFile(model.m_FileName);
+}
+
+
+
 //        // Save this for future use at startup.
 //        QSettings app_settings (QSettings::IniFormat, QSettings::UserScope, "MunnTech", "Flow Cell Control");
 //        app_settings.beginGroup("Settings_Files");
 //        app_settings.setValue("Last_Method", name->fileName());
 //        app_settings.endGroup();
 
-
-void MethodWindow::saveFileAs()
-{
-    model.m_FileName = QFileDialog::getSaveFileName(this);
-    if(model.m_FileName.isEmpty())
-        return;
-    saveFile(model.m_FileName);
-}
-
 void MethodWindow::saveSettingsFile()
 {
-// Check if there is a name given to the Settings
-//    if(ui->lineEditSystemName->text() == QString(""))
-//        // Change this to system Name...
-//    {
-//        QMessageBox msgBox;
-//        msgBox.setText("Please give a name to your instrument settings.");
-//        msgBox.exec();
-//        return;
-//    }
-
 
     ui->dateTimeEdit->setDate(QDate::currentDate());
     ui->dateTimeEdit->setTime(QTime::currentTime());
+
     // Add the new settings file to the list of saved settings files
     QSettings app_settings (QSettings::IniFormat, QSettings::UserScope, "MunnTech", "Flow Cell Control");
 
     app_settings.beginGroup("Settings_Files");
-
     int numSettingsFiles = app_settings.value("Num_Settings", 0).toInt();
-
     bool newSettings = true;
+
     // Ensure there isn't another set of settings under the same name.
-//    qDebug() << "numsettings " << numSettingsFiles;
     for(int i = numSettingsFiles; i > 0; --i)
     {
-//        qDebug() << i;
+
         if(app_settings.value(QString("Settings_%1").arg(i)).toString() == ui->lineEditSystemName->text())
         {
             newSettings = false;
@@ -273,7 +267,6 @@ void MethodWindow::saveSettingsFile()
                 break;
             }
         }
-//        qDebug( )<< "test " << app_settings.value(QString("Settings_%1").arg(i)).toString();
     }
 
     // Add the new settings file to the list of settings.
@@ -288,12 +281,11 @@ void MethodWindow::saveSettingsFile()
     // Save the new settings file
 
     QSettings settings (QSettings::IniFormat, QSettings::UserScope, "MunnTech", ui->lineEditSystemName->text());
-
     settings.beginGroup("Instrument_Settings");
-
     settings.setValue("Last_Saved", ui->dateTimeEdit->dateTime());
-   // settings.setValue("Last_Control_Send", ui->commSent->text());
-    //settings.setValue("Last_Control_Return", ui->commRtn->text());
+    settings.setValue("Position_One", ui->positionOne->text());
+    settings.setValue("Position_Thirteen", ui->positionThirteen->text());
+
 
     serialComms->saveSettings(&settings);
 
@@ -326,25 +318,19 @@ void MethodWindow::loadSettingsFile(int num)
     default: // Open settings file num
     {
         app_settings.beginGroup("Settings_Files");
-
         ui->lineEditSystemName->setText(app_settings.value(QString("Settings_%1").arg(num), "").toString());
-
         app_settings.endGroup();
     }
         break;
     }
     QSettings settings (QSettings::IniFormat, QSettings::UserScope, "MunnTech", ui->lineEditSystemName->text());
-
     settings.beginGroup("Instrument_Settings");
-
     ui->dateTimeEdit->setDateTime(settings.value("Last_Saved","").toDateTime());
-    //ui->commSent->setText(settings.value("Last_Control_Send", "").toString());
-    //ui->commRtn->setText(settings.value("Last_Control_Return", "").toString());
+    ui->positionOne->setValue(settings.value("Position_One", "").toDouble());
+    ui->positionThirteen->setValue(settings.value("Position_Thirteen", "").toDouble());
 
     serialComms->loadSettings(&settings);
-
     settings.endGroup();
-
     settings.beginGroup("Position_Data");
 
     for(int i = 0; i < SAMPLES; ++i)
@@ -400,7 +386,7 @@ void MethodWindow::copy()
 
 void MethodWindow::about()
 {
-    QMessageBox::about(this, tr("About Edit"),tr("Flow Cell Method Editor 0.1.1.0\nA Qt application.\n""(c) 2014-2015 MunnTech, Open Source Material"));
+    QMessageBox::about(this, tr("About Edit"),tr("Flow Cell Method Editor 1.1.0 \nA Qt application.\n""(c) 2014-2015 MunnTech, Open Source Material"));
 }
 
 void MethodWindow::cleanup()
