@@ -30,9 +30,9 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>14</y>
+      <y>10</y>
       <width>1281</width>
-      <height>1141</height>
+      <height>1145</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -68,7 +68,7 @@
         <x>710</x>
         <y>0</y>
         <width>561</width>
-        <height>691</height>
+        <height>661</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -83,6 +83,9 @@
         <weight>75</weight>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QScrollBar:vertical { width: 80px; }</string>
       </property>
       <property name="frameShadow">
        <enum>QFrame::Sunken</enum>
@@ -119,9 +122,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>10</y>
         <width>711</width>
-        <height>91</height>
+        <height>111</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -183,7 +186,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>90</y>
+        <y>130</y>
         <width>711</width>
         <height>261</height>
        </rect>
@@ -246,7 +249,7 @@ QTimeEdit::down-button { width: 140px; height: 130px; }</string>
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>380</y>
+        <y>400</y>
         <width>711</width>
         <height>261</height>
        </rect>
@@ -298,19 +301,6 @@ QSpinBox::down-button { width: 140px; height: 130px; }
         </widget>
        </item>
       </layout>
-     </widget>
-     <widget class="Line" name="line">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>118</width>
-        <height>3</height>
-       </rect>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="SequenceRun">
@@ -957,12 +947,15 @@ QSpinBox::down-button { width: 140px; height: 130px; }
        <rect>
         <x>930</x>
         <y>0</y>
-        <width>341</width>
-        <height>641</height>
+        <width>351</width>
+        <height>661</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true"/>
+       <string notr="true">QScrollBar:vertical { width: 80px; }</string>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOn</enum>
       </property>
      </widget>
      <widget class="QLabel" name="label_2">
@@ -1190,7 +1183,7 @@ QSpinBox::down-button { width: 55px; height: 30px; }</string>
               <number>12</number>
              </property>
              <property name="value">
-              <number>12</number>
+              <number>1</number>
              </property>
             </widget>
            </item>
@@ -1287,10 +1280,10 @@ QSpinBox::down-button { width: 55px; height: 30px; }</string>
       </property>
       <property name="styleSheet">
        <string notr="true">QDoubleSpinBox { border: 5px solid blue; border-radius: 10px; font-size: 70px; background-color:lightGray ;}
-QDoubleSpinBox::up-arrow { width: 120px; height: 100px; }
-QDoubleSpinBox::up-button { width: 120px; height: 100px; }
-QDoubleSpinBox::down-arrow {width: 120px; height: 100px; }
-QDoubleSpinBox::down-button { width: 120px; height: 100px; }</string>
+QDoubleSpinBox::up-arrow { width: 120px; height: 90px; }
+QDoubleSpinBox::up-button { width: 120px; height: 90px; }
+QDoubleSpinBox::down-arrow {width: 120px; height: 90px; }
+QDoubleSpinBox::down-button { width: 120px; height: 90px; }</string>
       </property>
       <property name="decimals">
        <number>1</number>
@@ -1319,7 +1312,7 @@ QDoubleSpinBox::down-button { width: 120px; height: 100px; }</string>
        </font>
       </property>
       <property name="text">
-       <string>  Position 13</string>
+       <string>  Position 13 SET</string>
       </property>
      </widget>
      <widget class="QDoubleSpinBox" name="positionThirteen">
@@ -1342,10 +1335,10 @@ QDoubleSpinBox::down-button { width: 120px; height: 100px; }</string>
       </property>
       <property name="styleSheet">
        <string notr="true">QDoubleSpinBox { border: 5px solid blue; border-radius: 10px; font-size: 70px; background-color:lightGray ;}
-QDoubleSpinBox::up-arrow { width: 120px; height: 100px; }
-QDoubleSpinBox::up-button { width: 120px; height: 100px; }
-QDoubleSpinBox::down-arrow {width: 120px; height: 100px; }
-QDoubleSpinBox::down-button { width: 120px; height: 100px; }</string>
+QDoubleSpinBox::up-arrow { width: 120px; height: 90px; }
+QDoubleSpinBox::up-button { width: 120px; height: 90px; }
+QDoubleSpinBox::down-arrow {width: 120px; height: 90px; }
+QDoubleSpinBox::down-button { width: 120px; height: 90px; }</string>
       </property>
       <property name="decimals">
        <number>1</number>
@@ -1355,9 +1348,6 @@ QDoubleSpinBox::down-button { width: 120px; height: 100px; }</string>
       </property>
       <property name="singleStep">
        <double>0.100000000000000</double>
-      </property>
-      <property name="value">
-       <double>120.000000000000000</double>
       </property>
      </widget>
      <widget class="QLabel" name="positionOne_Lbl">
@@ -1377,7 +1367,7 @@ QDoubleSpinBox::down-button { width: 120px; height: 100px; }</string>
        </font>
       </property>
       <property name="text">
-       <string>  Position 1 </string>
+       <string>  Position 1 SET</string>
       </property>
      </widget>
      <widget class="QDoubleSpinBox" name="positionOne">
@@ -1400,10 +1390,10 @@ QDoubleSpinBox::down-button { width: 120px; height: 100px; }</string>
       </property>
       <property name="styleSheet">
        <string notr="true">QDoubleSpinBox { border: 5px solid blue; border-radius: 10px; font-size: 70px; background-color:lightGray ;}
-QDoubleSpinBox::up-arrow { width: 120px; height: 100px; }
-QDoubleSpinBox::up-button { width: 120px; height: 100px; }
-QDoubleSpinBox::down-arrow {width: 120px; height: 100px; }
-QDoubleSpinBox::down-button { width: 120px; height: 100px; }</string>
+QDoubleSpinBox::up-arrow { width: 120px; height: 90px; }
+QDoubleSpinBox::up-button { width: 120px; height: 90px; }
+QDoubleSpinBox::down-arrow {width: 120px; height: 90px; }
+QDoubleSpinBox::down-button { width: 120px; height: 90px; }</string>
       </property>
       <property name="decimals">
        <number>1</number>
@@ -1413,9 +1403,6 @@ QDoubleSpinBox::down-button { width: 120px; height: 100px; }</string>
       </property>
       <property name="singleStep">
        <double>0.100000000000000</double>
-      </property>
-      <property name="value">
-       <double>10.000000000000000</double>
       </property>
      </widget>
      <zorder>wastePosition</zorder>
@@ -1447,7 +1434,7 @@ QDoubleSpinBox::down-button { width: 120px; height: 100px; }</string>
    </property>
    <widget class="QMenu" name="menuMethod_Sequence">
     <property name="title">
-     <string>  Method Sequence  </string>
+     <string>   Method Sequence   </string>
     </property>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
@@ -1458,7 +1445,7 @@ QDoubleSpinBox::down-button { width: 120px; height: 100px; }</string>
    </widget>
    <widget class="QMenu" name="menuSystem_Setup">
     <property name="title">
-     <string>  System Setup  </string>
+     <string>   System Setup   </string>
     </property>
     <widget class="QMenu" name="menuOpen_Settings_File">
      <property name="font">
@@ -1477,7 +1464,7 @@ QDoubleSpinBox::down-button { width: 120px; height: 100px; }</string>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>  Help  </string>
+     <string>   Help   </string>
     </property>
     <addaction name="actionHelp_Method_Edit"/>
     <addaction name="separator"/>
@@ -1485,7 +1472,7 @@ QDoubleSpinBox::down-button { width: 120px; height: 100px; }</string>
    </widget>
    <widget class="QMenu" name="menuOptions">
     <property name="title">
-     <string>  Options  </string>
+     <string>   Options   </string>
     </property>
     <addaction name="actionToggle_Log"/>
     <addaction name="actionLog_Off"/>

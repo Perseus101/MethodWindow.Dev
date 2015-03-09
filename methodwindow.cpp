@@ -44,13 +44,9 @@ void MethodWindow::setupTables()
     ui->tableView->setModel(&model);
     ui->tableView->setShowGrid(true);
    
-    model.setHeaderData(0, Qt::Horizontal, QObject::tr(" Waste Time "));
-    model.setHeaderData(1, Qt::Horizontal, QObject::tr(" Sample Time "));
-    model.setHeaderData(2, Qt::Horizontal, QObject::tr(" Total Time "));
-//    model.setHeaderData(3, Qt::Horizontal, QObject::tr("Total Time"));
-//    model.setHeaderData(4, Qt::Horizontal, QObject::tr("Total Time"));
-
-    //ui->tableView->setItemDelegate();
+    model.setHeaderData(0, Qt::Horizontal, QObject::tr("   Waste   "));
+    model.setHeaderData(1, Qt::Horizontal, QObject::tr("   Sample  "));
+    model.setHeaderData(2, Qt::Horizontal, QObject::tr("   Total   "));
 
     ui->tableView->resizeRowsToContents();
     ui->tableView->resizeColumnsToContents();
