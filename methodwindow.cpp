@@ -44,9 +44,9 @@ void MethodWindow::setupTables()
     ui->tableView->setModel(&model);
     ui->tableView->setShowGrid(true);
    
-    model.setHeaderData(0, Qt::Horizontal, QObject::tr("   Waste   "));
-    model.setHeaderData(1, Qt::Horizontal, QObject::tr("   Sample  "));
-    model.setHeaderData(2, Qt::Horizontal, QObject::tr("   Total   "));
+    model.setHeaderData(0, Qt::Horizontal, QObject::tr("   --  Waste  --   "));
+    model.setHeaderData(1, Qt::Horizontal, QObject::tr("   --  Sample  --  "));
+    model.setHeaderData(2, Qt::Horizontal, QObject::tr("   --  Total   --  "));
 
     ui->tableView->resizeRowsToContents();
     ui->tableView->resizeColumnsToContents();
@@ -147,7 +147,6 @@ void MethodWindow::setupRecentFiles()
 
 
     QString hostName = QHostInfo::localHostName();
-//    qDebug()<<(QString("Host Name is: %1").arg(hostName));
     ui->lineEditSystemName->setText(hostName);
     int numSettingsFiles = app_settings.value("Num_Settings", 0).toInt();
     for(int i = numSettingsFiles; i > 0; --i)
@@ -382,7 +381,7 @@ void MethodWindow::copy()
 
 void MethodWindow::about()
 {
-    QMessageBox::about(this, tr("About Edit"),tr("Flow Cell Method Editor 1.1.0 \nA Qt application.\n""(c) 2014-2015 MunnTech, Open Source Material"));
+    QMessageBox::about(this, tr("About Edit"),tr("Flow Cell Method Editor 1.2.0 \nA Qt application.\n""(c) 2014-2015 MunnTech, Open Source Material"));
 }
 
 void MethodWindow::cleanup()

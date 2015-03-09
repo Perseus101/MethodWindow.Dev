@@ -248,7 +248,7 @@ void MethodRun::stepLoop()
                 {
                     sample++;
                     setStepMS(m_data->getStepSeconds(sample) * 1000);
-                    qDebug(QString("sample: %1").arg(sample).toStdString().c_str());
+
                 }
                 while(stepMS == 0 && sample < SAMPLES);
                 // Account for empty steps and go to next
@@ -256,7 +256,6 @@ void MethodRun::stepLoop()
                 if(sample == SAMPLES) // All steps completed
                 {
                     running=false;
-                    qDebug("---- All Done ----");
                     pumpOn=false;
                     //mutex.unlock();
                     //running=false;
@@ -279,7 +278,6 @@ void MethodRun::stepLoop()
                 {
                     action++;
                     setActionMS(m_data->getActionSeconds(sample,action) * 1000);
-                    qDebug() << "action: " << action;
                 }
                 while(actionMS == 0 && action < 1);
 
@@ -318,7 +316,6 @@ void MethodRun::stepLoop()
                 default:
                 {
                     startStep = true;
-                    qDebug() << QString("default case");
                 }
                     break;
                 }

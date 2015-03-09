@@ -9,6 +9,6 @@
 
 const QString column_Headers[] = { QObject::tr("Waste"),
                                    QObject::tr("Sample"),
-                                   QObject::tr("Total")};
+                                   QObject::tr("   ------   ")};
 
 #endif // GLOBALS_H

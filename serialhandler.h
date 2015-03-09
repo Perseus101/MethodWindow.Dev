@@ -45,9 +45,9 @@ private slots:
 
 private:
     SettingsDialog *settings;
+    QFile logFile;
     QTableView *positionData;
     QByteArray msgList;
-    QFile logFile;
     bool open;
     int i;
 };

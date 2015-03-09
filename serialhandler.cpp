@@ -31,13 +31,6 @@ void SerialHandler::openSerialPort()
             QTextStream stream( &logFile );
             stream << QTime::currentTime().toString() <<"  --  Serial port Init" <<  endl;
         }
-//        qDebug()<< "serialport open";
-//            console->setEnabled(true);
-//            console->setLocalEchoEnabled(p.localEchoEnabled);
-//            ui->actionConnect->setEnabled(false);
-//            ui->actionDisconnect->setEnabled(true);
-//            ui->actionConfigure->setEnabled(false);
-//              ui->actionMGHP
 //            ui->statusBar->showMessage(tr("Connected to %1 : %2, %3, %4, %5, %6")
 //                                       .arg(p.name).arg(p.stringBaudRate).arg(p.stringDataBits)
 //                                       .arg(p.stringParity).arg(p.stringStopBits).arg(p.stringFlowControl));
@@ -50,16 +43,10 @@ void SerialHandler::openSerialPort()
 
 void SerialHandler::closeSerialPort()
 {
-    //qDebug()<< "serialport check";
     if(open){
         serial->close();        
     }
     open = false;
-//    console->setEnabled(false);
-//    ui->actionConnect->setEnabled(true);
-//    ui->actionDisconnect->setEnabled(false);
-//    ui->actionConfigure->setEnabled(true);
-//    ui->statusBar->showMessage(tr("Disconnected"));
 }
 
 void SerialHandler::moveToSample(int sample)
@@ -71,15 +58,6 @@ void SerialHandler::moveToSample(int sample)
 
     float position = positionData->model()->data(positionData->model()->index(sample, 0)).toFloat();
     sendMoveAbsolute(position);
-//    QByteArray data = "SIGREADY\n";
-//    while (!msgList.contains("SIGREADY=1")){
-//        qDebug() << "SigReady";
-//        serial->write(data);
-//         qDebug() << "loop  MOVE -  "<< msgList;
-//         QTest::qWait(1000);
-//     }
-//    msgList = "EMPTY\n";
-//    // qDebug(QString("Position: %1").arg(position).toStdString().c_str());
 }
 
 void SerialHandler::moveToWaste(float waste_position)
@@ -96,13 +74,11 @@ void SerialHandler::moveToZero()
 void SerialHandler::pumpOn()
 {
     sendSetOut(true);
-//    qDebug("Pump on.");
 }
 
 void SerialHandler::pumpOff()
 {
     sendSetOut(false);
-//    qDebug("Pump off.");
 }
 
 // Private Slots
@@ -119,18 +95,11 @@ void SerialHandler::readData()
             data += serial->readAll();
      msgList.append(data);
      QString tdata = QTime::currentTime().toString() + "  " + QString(data);
-     qDebug() << tdata;
      QTextStream stream( &logFile );
      stream << QTime::currentTime().toString() <<" -- Serial Data   " << QString(data) <<  endl;
-
-     //     stream << tdata;
-//     QTextStream stream( &logFile );
-//     stream << "something" << endl;
-
     }
 }
 
-//qDebug() << QDateTime::currentDateTime().toString("yyyy-mm-dd hh:mm:ss") << "Debug :" << var;
 
 void SerialHandler::sendInit()
 {
@@ -154,7 +123,6 @@ void SerialHandler::sendMGHP()
     data = "SIGHOMEP\n";
     while (!msgList.contains("SIGHOMEP=1")){
          serial->write(data);
-         qDebug() << "loop HOME -  ";
          QTest::qWait(1000);
      }
     msgList = "EMPTY\n";
@@ -170,12 +138,10 @@ void SerialHandler::sendMoveAbsolute(float position)
     data = QString("SIGREADY\n");
     while (!msgList.contains("SIGREADY=1")){
          serial->write(data.toUtf8());
-         //qDebug() <<"loop  MOVE -  "<< msgList;
          QTest::qWait(1000);
      }
     msgList = "EMPTY\n";
 
-    // insert loop here to send "SIGREADY" and wait for "SIGREADY=1"
     // include statusBar()->message(tr("In Motion"));
 }
 

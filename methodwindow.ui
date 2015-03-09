@@ -30,9 +30,9 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>10</y>
-      <width>1281</width>
-      <height>1145</height>
+      <y>0</y>
+      <width>1280</width>
+      <height>721</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -47,10 +47,11 @@
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true"/>
+     <string notr="true">QTabWidget::pane { border: 3px solid blue; border-radius: 5px; font-size: 40px; background-color:lightGray ;}
+QTabWidget::tab:selected { borderwidth: 2px solid blue; border-radius: 5px; }</string>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="SequenceEdit">
      <property name="minimumSize">
@@ -481,7 +482,7 @@ QSpinBox::down-button { width: 140px; height: 130px; }
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton { border: 5px solid blue; border-radius: 20px; font-size: 30px; background-color:lightGray ;}</string>
+          <string notr="true">QPushButton { border: 5px solid blue; border-radius: 20px; font-size: 40px; background-color:lightGray ;}</string>
          </property>
          <property name="text">
           <string>Pause Sequence</string>
@@ -505,7 +506,7 @@ QSpinBox::down-button { width: 140px; height: 130px; }
           <bool>false</bool>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton { border: 5px solid blue; border-radius: 20px; font-size: 30px; background-color:lightGray ;}</string>
+          <string notr="true">QPushButton { border: 5px solid blue; border-radius: 20px; font-size: 40px; background-color:lightGray ;}</string>
          </property>
          <property name="text">
           <string>Start Sequence</string>
@@ -526,7 +527,7 @@ QSpinBox::down-button { width: 140px; height: 130px; }
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton { border: 5px solid blue; border-radius: 20px; font-size: 30px; background-color:lightGray ;}</string>
+          <string notr="true">QPushButton { border: 5px solid blue; border-radius: 20px; font-size: 40px; background-color:lightGray ;}</string>
          </property>
          <property name="text">
           <string>Halt Sequence </string>
@@ -963,7 +964,7 @@ QSpinBox::down-button { width: 140px; height: 130px; }
        <rect>
         <x>0</x>
         <y>370</y>
-        <width>236</width>
+        <width>311</width>
         <height>50</height>
        </rect>
       </property>
@@ -982,6 +983,9 @@ QSpinBox::down-button { width: 140px; height: 130px; }
       </property>
       <property name="text">
        <string>Service Menu</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
      <widget class="QWidget" name="layoutWidget">
@@ -1067,7 +1071,7 @@ QSpinBox::down-button { width: 140px; height: 130px; }
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton { border: 5px solid blue; border-radius: 20px; font-size: 24px; background-color:lightGray ;}</string>
+          <string notr="true">QPushButton { border: 5px solid blue; border-radius: 20px; font-size: 36px; background-color:lightGray ;}</string>
          </property>
          <property name="text">
           <string>Open Device Settings</string>
