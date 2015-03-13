@@ -23,6 +23,7 @@ void SerialHandler::openSerialPort()
     if (serial->open(QIODevice::ReadWrite))
     {
         open = true;
+
         //Open Logfile
         QString filename="/home/pi/Method_Window/log/MethodLog-" + QDateTime::currentDateTime().toString()+".txt";
         logFile.setFileName(filename);
@@ -44,7 +45,8 @@ void SerialHandler::openSerialPort()
 void SerialHandler::closeSerialPort()
 {
     if(open){
-        serial->close();        
+        serial->close();
+        if(logFile.isOpen()) logFile.close();
     }
     open = false;
 }

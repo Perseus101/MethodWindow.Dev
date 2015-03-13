@@ -174,20 +174,24 @@ void MethodRun::pauseSequence()
 
 void MethodRun::stopSequence()
 {
-
-    mutex.unlock();
+    // turn off access to other functions
     ui->stopButton->setEnabled(false);
-    pauseThread = true;
-    if (!ui->checkNoCom->isChecked()) handler->moveToZero();  //go back to zero at finish
-    ui->startButton->setEnabled(true);
-    QTest::qWait(1000);
+    ui->pauseButton->setEnabled(false);
+    running = false;
 
+    // shut off pump
     if (!ui->checkNoCom->isChecked()) handler->pumpOff();
-
+    QTest::qWait(2000);   // avoid the drip
     pumpOn = false;
     updatePumpStat();
-    pauseThread = false;
 
+    // Move back to origin
+    if (!ui->checkNoCom->isChecked()) handler->moveToZero();
+
+    // Wait a few for the dust to settle before reset
+    QTest::qWait(500);
+
+    mutex.unlock();
     reset();
 }
 
@@ -255,17 +259,8 @@ void MethodRun::stepLoop()
 
                 if(sample == SAMPLES) // All steps completed
                 {
-                    running=false;
-                    pumpOn=false;
-                    //mutex.unlock();
-                    //running=false;
-                    if (!ui->checkNoCom->isChecked()) handler->pumpOff();
-                    if (!ui->checkNoCom->isChecked()) handler->moveToZero();  //go back to zero to finish
-
-                    mutex.unlock();
-                    //QTest::qWait(1000);
-                    reset();
-                    return;
+                  stopSequence();
+                  return;
                 }
                 startStep = false;
                 startAction = true;
