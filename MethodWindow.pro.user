@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.2.1, 2015-03-12T23:58:20. -->
+<!-- Written by QtCreator 3.2.1, 2015-05-02T15:17:46. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -403,14 +403,17 @@
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedFiles">
        <value type="QString">/home/don/QTProjects/build-MethodWindow-Raspberry_Pi-Release/MethodWindow</value>
        <value type="QString">/home/don/QTProjects/build-MethodWindow-Raspberry_Pi-Debug/MethodWindow</value>
+       <value type="QString">/home/don/QTProjects/build-MethodWindow-Raspberry_Pi-Release/MethodWindow</value>
        <value type="QString">/home/don/QTProjects/build-MethodWindow-Raspberry_Pi-Debug/MethodWindow</value>
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedHosts">
        <value type="QString">192.168.1.108</value>
        <value type="QString">192.168.1.106</value>
+       <value type="QString">192.168.1.104</value>
        <value type="QString">192.168.1.108</value>
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedRemotePaths">
+       <value type="QString">/home/pi/Method_Window</value>
        <value type="QString">/home/pi/Method_Window</value>
        <value type="QString">/home/pi/Method_Window</value>
        <value type="QString">/home/pi/Method_Window</value>
@@ -419,10 +422,12 @@
        <value type="QString">/mnt/rasp-pi-rootfs</value>
        <value type="QString">/mnt/rasp-pi-rootfs</value>
        <value type="QString">/mnt/rasp-pi-rootfs</value>
+       <value type="QString">/mnt/rasp-pi-rootfs</value>
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedTimes">
        <value type="QDateTime">2015-03-12T23:57:05</value>
        <value type="QDateTime">2015-03-09T02:27:23</value>
+       <value type="QDateTime">2015-05-02T15:17:01</value>
        <value type="QDateTime">2015-03-12T23:53:24</value>
       </valuelist>
       <value type="bool" key="RemoteLinux.GenericDirectUploadStep.IgnoreMissingFiles">false</value>

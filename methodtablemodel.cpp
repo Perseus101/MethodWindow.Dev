@@ -93,6 +93,11 @@ bool MethodTableModel::setData(const QModelIndex & index, const QVariant & value
                             minutes += iter->data.minute();
                             seconds += iter->data.second();
                         }
+                    while(minutes >= 60)    // correct for roll over
+                    {
+                        minutes -= 60;
+                        hours += 1;
+                    }
                     for(iter = it->begin(); iter != it->end(); ++iter)
                         if(iter->column == 2)
                             iter->data = QTime(hours, minutes, seconds);

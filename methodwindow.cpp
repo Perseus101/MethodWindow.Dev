@@ -381,7 +381,7 @@ void MethodWindow::copy()
 
 void MethodWindow::about()
 {
-    QMessageBox::about(this, tr("About Edit"),tr("Flow Cell Method Editor 1.2.1 \nA Qt application.\n""(c) 2014-2015 MunnTech, Open Source Material"));
+    QMessageBox::about(this, tr("About Edit"),tr("Flow Cell Method Editor 1.2.2 \nA Qt application.\n""(c) 2014-2015 MunnTech, Open Source Material"));
 }
 
 void MethodWindow::cleanup()
