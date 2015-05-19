@@ -25,7 +25,7 @@
 #include "methodrun.h"
 #include "spinboxdelegate.h"
 
-// #include "soft_keyboard/softkeyboard.h"
+ #include "soft_keyboard/softkeyboard.h"
 
 namespace Ui {
 class MethodWindow;
@@ -44,7 +44,7 @@ private:
     MethodTableModel model;
     QStandardItemModel *posDatModel;
     //HMSDelegate delegate;
-    //SoftKeyboard *softKeyboard;
+    SoftKeyboard *softKeyboard;
     SettingsDialog *serialComms;
 //    QLabel *mPumpStat;
 

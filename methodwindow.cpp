@@ -24,7 +24,7 @@ MethodWindow::MethodWindow(QWidget *parent)
     setupActions();
     setupRecentSettings();
     setupRecentFiles();
-//    setupSoftKeyboard();
+    setupSoftKeyboard();
 //    mPumpStat = new QLabel;
 //    statusBar()->addWidget(mPumpStat);
 
@@ -35,7 +35,7 @@ MethodWindow::~MethodWindow()
 {
     delete ui;
     delete methodManager;
-    //delete softKeyboard;
+    delete softKeyboard;
 }
 
 void MethodWindow::setupTables()
@@ -161,15 +161,15 @@ void MethodWindow::setupRecentFiles()
 }
 
 
-//void MethodWindow::setupSoftKeyboard()
-//{
-//    softKeyboard = new SoftKeyboard();
-//    softKeyboard->resize(520, 210);
-//    softKeyboard->setPosition(75, 400);
+void MethodWindow::setupSoftKeyboard()
+{
+    softKeyboard = new SoftKeyboard();
+    softKeyboard->resize(520, 210);
+    softKeyboard->setPosition(75, 400);
 
-//    softKeyboard->addToHandle(ui->lineEditSystemName);
-//// Add more ui elements to the handle to have the soft keyboard open when those widgets are clicked
-//}
+    softKeyboard->addToHandle(ui->lineEditSystemName);
+// Add more ui elements to the handle to have the soft keyboard open when those widgets are clicked
+}
 
 void MethodWindow::closeEvent(QCloseEvent *e)
 {
