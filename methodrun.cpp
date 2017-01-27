@@ -185,8 +185,10 @@ void MethodRun::stopSequence()
     pumpOn = false;
     updatePumpStat();
 
-    // Move back to origin
-    if (!ui->checkNoCom->isChecked()) handler->moveToZero();
+    // Move back to origin, check that, move to waste
+    //if (!ui->checkNoCom->isChecked()) handler->moveToZero();
+    if (!ui->checkNoCom->isChecked()) handler->moveToWaste(ui->wastePosition->value());
+
 
     // Wait a few for the dust to settle before reset
     QTest::qWait(500);
